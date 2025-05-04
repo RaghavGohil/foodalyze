@@ -1,0 +1,69 @@
+//This is the user's schema 
+
+//User creation and login and sign up details
+enum Gender {
+    MALE
+    FEMALE
+    OTHER
+}
+
+model User {
+    id Int @id @default(autoincrement())
+    name String
+    phone Long
+    email String
+    password String
+    gender Gender
+
+    createdAt        DateTime            @default(now())
+    updatedAt        DateTime            @updatedAt
+}
+
+
+//Important information for suggestions, etc
+enum DietaryPreference {
+  VEGETARIAN
+  VEGAN
+  KETO
+  PALEO
+  LOW_CARB
+  OMNIVORE
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  ACTIVE
+  VERY_ACTIVE
+}
+
+enum HealthCondition {
+  CARDIOVASCULAR
+  UNDERWEIGHT
+  OBESE
+  NAFLD
+  HYPERTENSION
+  DIABETES_TYPE_1
+  DIABETES_TYPE_2
+  PRE_DIABETIC
+  NONE
+}
+
+model UserInformation {
+  id               Int                 @id @default(autoincrement())
+  bmi              Float
+  dietaryPref      DietaryPreference
+  activityLevel    ActivityLevel
+  healthConditions HealthCondition[]   // array of enums
+  allergies        String[]            // or you can normalize to a table
+  preferredCuisines String[]
+  avoidedCuisines   String[]
+  medications      String[]            // or relate to a separate Medications table
+
+  userId            Int                @unique
+  user              User               @relation(fields: [userId], references: [id])
+
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+}
