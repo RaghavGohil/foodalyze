@@ -1,8 +1,10 @@
 //This is the products's schema 
 
 model Product {
-    id @id @default(autoincrement())  
+    id Int @id @default(autoincrement())  
     data Json?
+
+    searchHistory SearchHistory[]
 
     createdAt        DateTime            @default(now())
     updatedAt        DateTime            @updatedAt

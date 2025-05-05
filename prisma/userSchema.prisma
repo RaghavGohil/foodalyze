@@ -8,13 +8,19 @@ enum Gender {
 }
 
 model User {
+    //actual data
     id Int @id @default(autoincrement())
     name String
-    phone Long
+    phone Int 
     email String
     password String
     gender Gender
 
+    //reverse relation fields
+    userInformation UserInformation[]
+    searchHistory SearchHistory[]
+
+    //metadata
     createdAt        DateTime            @default(now())
     updatedAt        DateTime            @updatedAt
 }
