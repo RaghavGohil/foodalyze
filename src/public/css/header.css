@@ -1,37 +1,49 @@
-body{
-    font-family: "Inter", system-ui, sans-serif;
-    line-height:1.5;
-    color:var(--gray-900);
-    background:var(--cream);
+.nav {
+  background-color: var(--cream);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid var(--olive);
 }
 
-h1,h2,h3,h4{
-    font-family: "Playfair Display", serif;
-    font-weight:700;
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: normal;
+  color: var(--olive);
 }
 
-/* =====  NAV / HERO  ===== */
-.nav{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1.25rem 4vw;
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
 }
 
-.logo{
-    font-family:"Playfair Display",serif;
-    font-size:1.25rem;
-    letter-spacing:1px;
+.nav-links a {
+  position: relative; /* required for underline */
+  font-weight: normal;
+  text-decoration: none;
+  color: var(--olive);
+  transition: color 0.3s ease;
 }
 
-.nav-links{
-    list-style:none;
-    display:flex;
-    gap:2rem;
+/* Add animated underline */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background-color: var(--olive);
+  transition: width 0.3s ease;
 }
 
-.nav a{
-    text-decoration:none;
-    color:var(--gray-900);
-    font-weight:500;
+.nav-links a:hover {
+  color: var(--olive);
+}
+
+.nav-links a:hover::after {
+  color: var(--olive);
+  width: 100%;
 }

@@ -1,23 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foodalyze Product Insights</title>
-    <link rel="stylesheet" href="prod_info.css">
-</head>
-<body>
-    <header>
-        <div class="logo">FOODALYZE</div>
-        <nav>
-            <ul>
-                <li><a href="#">My Profile</a></li>
-                <li><a href="#">Upload Product</a></li>
-                <li><a href="#">Know us & Connect</a></li>
-            </ul>
-        </nav>
-    </header>
-
+<!--Styles-->
+<link rel="stylesheet" href="/css/product_info.css" />
+<script>
+        function toggleCollapsible(id) {
+            var content = document.getElementById(id);
+            var button = content.previousElementSibling;
+            content.classList.toggle('open');
+            button.querySelector('.arrow').classList.toggle('down-arrow');
+            button.querySelector('.arrow').classList.toggle('up-arrow');
+        }
+    </script>
+    <script src="prod_info.js"></script>
     <main class="container">
         <section class="product-info">
             <h1>"Your product has been decoded – explore your personalized Foodalyze insights now!"</h1>
@@ -105,15 +97,4 @@
         </section>
     </main>
 
-    <script>
-        function toggleCollapsible(id) {
-            var content = document.getElementById(id);
-            var button = content.previousElementSibling;
-            content.classList.toggle('open');
-            button.querySelector('.arrow').classList.toggle('down-arrow');
-            button.querySelector('.arrow').classList.toggle('up-arrow');
-        }
-    </script>
-    <script src="prod_info.js"></script>
-</body>
-</html>
+    
