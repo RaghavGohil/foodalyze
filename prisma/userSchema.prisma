@@ -11,7 +11,7 @@ model User {
     //actual data
     id Int @id @default(autoincrement())
     name String
-    phone Int 
+    phone String
     email String
     password String
     gender Gender

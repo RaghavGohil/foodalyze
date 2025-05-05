@@ -1,22 +1,29 @@
-// Env config
-import dotenv from 'dotenv';
-dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// supabaseClient.js
-import { createClient } from '@supabase/supabase-js';
-const supabaseUrl = process.env.SUPABASE_URL;  // Get this from your Supabase project
-const supabaseKey = process.env.SUPABASE_KEY;  // Get this from your Supabase project
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Recreate __dirname in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+// Express
 import express from 'express';
-// Routes
-import authRoutes from './src/routes/authRoutes.js';
+import { engine } from 'express-handlebars';
 
+// Express setup
 const app = express();
 app.use(express.json());
+app.use(express.static(path.join(__dirname, './src/public')));
+app.engine('hbs', engine({extname:'hbs'}));
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, './src/views'));
 
-app.use('/api/auth', authRoutes(supabase));
+// Routes
+import authRoutes from './src/routes/authRoutes.js';
+import pageRoutes from './src/routes/pageRoutes.js';
+app.use('/', pageRoutes);
+app.use('/api/auth', authRoutes);
 
+// Serve application
 app.listen(3000, () => {
   console.log('Server running on port 3000');
 });

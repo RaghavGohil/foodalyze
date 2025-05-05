@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Foodalyze - My Profile</title>
+  <link rel="stylesheet" href="health.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">FOODALYZE</div>
+      <nav>
+        <a href="#">My Profile</a>
+        <a href="#">Upload Product</a>
+        <a href="#">Know Us & Connect</a>
+      </nav>
+    </header>
+
+    <aside></aside>
+
+    <main>
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="avatar-upload">
+            <label for="avatar-input">
+              <img id="avatar-preview" src="snowball.jpeg" alt="Avatar" />
+              <input type="file" id="avatar-input" accept="image/*" />
+            </label>
+          </div>
+          <h2>Diya Gohil</h2>
+        </div>
+
+        <form id="profile-form">
+          <label>Height (cm):
+            <input type="text" name="height" id="height" />
+          </label>
+
+          <label>Weight (kg):
+            <input type="text" name="weight" id="weight" />
+          </label>
+
+          <label>BMI Index:
+            <input type="text" name="bmi" id="bmi" readonly />
+          </label>
+
+          <label>Health Conditions:
+            <select name="health">
+              <option value="">Select any health conditions you have</option>
+              <option value="diabetes">Diabetes</option>
+              <option value="hypertension">Hypertension</option>
+              <option value="none">None</option>
+            </select>
+          </label>
+
+          <label>Diet Type:
+            <select name="diet">
+              <option value="vegetarian">Vegetarian</option>
+              <option value="non-veg">Non-Vegetarian</option>
+              <option value="vegan">Vegan</option>
+            </select>
+          </label>
+
+          <label>Activity Habits:
+            <select name="activity">
+              <option value="low">Low</option>
+              <option value="moderate">Moderate</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+
+          <label>Smoking / Alcohol habit:
+            <input type="checkbox" name="smoke-alcohol" />
+          </label>
+
+          <label>Allergies:
+            <input type="text" name="allergies" />
+          </label>
+
+          <div class="buttons">
+            <button type="submit">Save changes</button>
+            <button type="reset">Reset</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script src="health.js"></script>
+</body>
+</html>

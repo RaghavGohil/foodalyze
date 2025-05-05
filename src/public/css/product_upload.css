@@ -1,0 +1,138 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fffdf9;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 100px;
+  background-color: #3b2f22;
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.main-container {
+  margin-left: 100px;
+  flex: 1;
+}
+
+header {
+  background-color: #fbf7ef;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: #000;
+}
+
+nav a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  color: #42382c;
+  font-size: 0.9rem;
+}
+
+.form-container {
+  background-color: #fdf9f2;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 800px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+label {
+  display: block;
+  margin-top: 1.2rem;
+  font-weight: 500;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: #fdf9f2;
+}
+
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+small.error {
+  color: red;
+  font-size: 0.8rem;
+  display: none;
+}
+
+.error-border {
+  border: 1px solid red;
+}
+
+.image-upload-section {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.upload-box {
+  flex: 1;
+}
+
+.image-drop {
+  margin-top: 0.5rem;
+  border: 2px dashed #ccc;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: #888;
+}
+
+.form-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.cancel {
+  background-color: #eaeaea;
+  color: #333;
+}
+
+.draft {
+  background-color: #f5f5dc;
+  color: #5b5b2c;
+}
+
+.save {
+  background-color: #42382c;
+  color: white;
+}

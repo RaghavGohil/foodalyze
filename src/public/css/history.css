@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-color: #f9f6f0;
+  color: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f1ebe0;
+  padding: 1rem 2rem;
+  border-bottom: 5px solid #3e3227;
+}
+
+.logo {
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #3e3227;
+}
+
+nav a {
+  margin-left: 2rem;
+  text-decoration: none;
+  color: #3e3227;
+  font-size: 0.95rem;
+}
+
+main {
+  margin-top: 4rem;
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+}
+
+.journey-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+button {
+  background-color: #594b3a;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button.clear {
+  background-color: #f9f6f0;
+  border: 1px solid #594b3a;
+  color: #594b3a;
+}
+
+.product-list {
+  margin-top: 1rem;
+  padding: 0 1rem;
+}
+
+.product-item {
+  background-color: #d6d3cf;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+  padding: 0.8rem 1rem;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+}

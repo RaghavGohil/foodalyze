@@ -5,7 +5,11 @@
     "@supabase/supabase-js": "^2.49.4",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.1"
+  },
+  "prisma": {
+    "schema": "./prisma/schema.prisma"
   },
   "devDependencies": {
     "nodemon": "^3.1.10",

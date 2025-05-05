@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Upload - Foodalyze</title>
+  <link rel="stylesheet" href="prod_upload.css">
+</head>
+<body>
+  <div class="sidebar"></div>
+  <div class="main-container">
+    <header>
+      <h1 class="logo">FOODALYZE</h1>
+      <nav>
+        <a href="#">My Profile</a>
+        <a href="#">Upload Product</a>
+        <a href="#">Know us & Connect</a>
+      </nav>
+    </header>
+
+    <section class="form-container">
+      <h2>Product Information</h2>
+      <form id="productForm">
+        <label for="productName">Product Name</label>
+        <input type="text" id="productName" name="productName" placeholder="e.g. Oat" required>
+        <small class="error">* Please enter a valid entry</small>
+
+        <label for="barcode">Barcode Number</label>
+        <input type="text" id="barcode" name="barcode" placeholder="Enter barcode number of the product">
+
+        <label for="quantity">Quantity/Weight</label>
+        <input type="text" id="quantity" name="quantity" placeholder="e.g. 250g, 1.5ltr">
+
+        <label for="category">Category</label>
+        <input type="text" id="category" name="category" placeholder="e.g. Snacks, Beverages, etc.">
+
+        <div class="image-upload-section">
+          <div class="upload-box">
+            <p>Show us the front of the package.</p>
+            <div class="image-drop">Browser or Desktop</div>
+          </div>
+          <div class="upload-box">
+            <p>Show us the reverse side of the product packaging.</p>
+            <div class="image-drop">Browser or Desktop</div>
+          </div>
+        </div>
+
+        <label for="note">Leave a Note (if any)</label>
+        <textarea id="note" name="note" placeholder="The more we know about the product, the better we can personalize your Foodalyze results:"></textarea>
+
+        <div class="form-actions">
+          <button type="button" class="cancel">Cancel</button>
+          <button type="button" class="draft">Draft</button>
+          <button type="submit" class="save">Save</button>
+        </div>
+      </form>
+    </section>
+  </div>
+  <script src="prod_upload.js"></script>
+</body>
+</html>

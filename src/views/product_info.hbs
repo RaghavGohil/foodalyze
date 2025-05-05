@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodalyze Product Insights</title>
+    <link rel="stylesheet" href="prod_info.css">
+</head>
+<body>
+    <header>
+        <div class="logo">FOODALYZE</div>
+        <nav>
+            <ul>
+                <li><a href="#">My Profile</a></li>
+                <li><a href="#">Upload Product</a></li>
+                <li><a href="#">Know us & Connect</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="product-info">
+            <h1>"Your product has been decoded – explore your personalized Foodalyze insights now!"</h1>
+            <div class="product-details">
+                <div class="image-container">
+                    <img src="maggie.jpg" alt="Product Image">
+                    <div class="nutrition-scores">
+                        <div class="nutrition-score">
+                            <img src="" alt="Nutri-Score">
+                        </div>
+                        <div class="nutrition-score">
+                            <img src="" alt="NOVA Group">
+                        </div>
+                    </div>
+                </div>
+                <div class="details-container">
+                    <h2>Maggi</h2>
+                    <p><strong>Barcode Number:</strong> 89010551000290</p>
+                    <p><strong>Brand Name:</strong> Nestlé</p>
+                    <p><strong>Common Name:</strong> Not given</p>
+                    <p><strong>Packaging:</strong> Not given</p>
+                    <p><strong>Categories:</strong> <span class="categories">Plant-based foods and beverages, Plant-based foods, Dried products, Pastas, Dried products to be rehydrated, Noodles, Instant noodles, Instant noodles with seasoning</span></p>
+                    <div class="button-group">
+                        <button class="save-report">Save Report</button>
+                        <button class="share-report">Share Report</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="insights">
+            <div class="trust-flags">
+                <div class="trust">
+                    <div class="title-bar">Ingredients to trust</div>
+                    <div class="content">
+                        </div>
+                </div>
+                <div class="flags">
+                    <div class="title-bar">Ingredients that raise red flags</div>
+                    <div class="content">
+                        </div>
+                </div>
+            </div>
+
+            <div class="personal-warnings rounded-box">
+                <div class="title">⚠️ Personal Health Warnings</div>
+                <ul>
+                    <li><span class="warning">⚠️</span> High sodium – not suitable for high BP</li>
+                    <li><span class="warning">⚠️</span> Contains added sugar – avoid for PCOD</li>
+                    <li><span class="cross">❌</span> Artificial sweeteners – bad for IBS</li>
+                </ul>
+            </div>
+
+            <div class="alternatives rounded-box">
+                <div class="title">Healthier Alternatives</div>
+                <div class="content">
+                    </div>
+            </div>
+
+            <div class="ai-suggestions rounded-box">
+                <div class="title">AI Suggestions</div>
+                <div class="content">
+                    </div>
+            </div>
+
+            <div class="collapsible-sections">
+                <div class="collapsible">
+                    <button class="collapsible-button" onclick="toggleCollapsible('ingredients')">
+                        All Ingredients
+                        <span class="arrow down-arrow">▼</span>
+                    </button>
+                    <div class="collapsible-content" id="ingredients">
+                        </div>
+                </div>
+
+                <div class="collapsible">
+                    <button class="collapsible-button" onclick="toggleCollapsible('nutrition')">
+                        Nutrition Breakdown
+                        <span class="arrow down-arrow">▼</span>
+                    </button>
+                    <div class="collapsible-content" id="nutrition">
+                        </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function toggleCollapsible(id) {
+            var content = document.getElementById(id);
+            var button = content.previousElementSibling;
+            content.classList.toggle('open');
+            button.querySelector('.arrow').classList.toggle('down-arrow');
+            button.querySelector('.arrow').classList.toggle('up-arrow');
+        }
+    </script>
+    <script src="prod_info.js"></script>
+</body>
+</html>

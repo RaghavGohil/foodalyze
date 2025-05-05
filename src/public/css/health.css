@@ -1,0 +1,139 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f6ef;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  background-color: #f9f6ef;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+nav a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  color: #000;
+}
+
+aside {
+  width: 80px;
+  background-color: #3d342c;
+  position: absolute;
+  top: 80px;
+  bottom: 0;
+  left: 0;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.profile-card {
+  background-color: #fefaf1;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 420px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.profile-header {
+  background-color: #4e4031;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px 12px 0 0;
+  gap: 1rem;
+}
+
+.avatar-upload {
+  position: relative;
+}
+
+.avatar-upload img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.avatar-upload input {
+  display: none;
+}
+
+form {
+  margin-top: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #e6e6e6;
+}
+
+input[type="checkbox"] {
+  margin-left: 0.5rem;
+}
+
+input[readonly] {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: #4e4031;
+  color: white;
+}
+
+button[type="reset"] {
+  background-color: #fff;
+  border: 1px solid #aaa;
+}

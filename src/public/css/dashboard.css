@@ -1,0 +1,132 @@
+.hero{
+    position:relative;
+    overflow:hidden;
+    min-height:650px;
+}
+
+.hero-inner{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    height:100%;
+}
+
+.hero-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.hero-copy{
+    align-self:center;
+    padding:0 6vw;
+}
+
+.hero-copy h1{
+    font-size:clamp(2.5rem,4vw,4rem);
+    line-height:1.1;
+    color:#fff;
+    mix-blend-mode:difference;
+}
+
+.hero-copy p{
+    margin:.8rem 0 2rem;
+    color:#fff;
+}
+
+.search-bar{
+    display:flex;
+    max-width:420px;
+}
+
+.search-bar input{
+    flex:1;
+    padding:.9rem 1rem;
+    border:none;
+    border-radius:2rem 0 0 2rem;
+}
+
+.search-bar button{
+    border:none;
+    background:var(--olive);
+    color:#fff;
+    padding:0 1.2rem;
+    border-radius:0 2rem 2rem 0;
+    cursor:pointer;
+}
+
+/* =====  WHY  ===== */
+.why{
+    padding:5rem 6vw 4rem;
+}
+
+.why h2{
+    font-size:3rem;
+    margin-bottom:2rem;
+}
+
+.why h2 span{color:var(--gray-700)}
+
+.why-grid{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:3rem;
+    align-items:start;
+}
+
+.why-list{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:1.65rem;
+    font-size:1.1rem;
+}
+
+.why-list li::before{
+    content:'✔';
+    color:var(--olive);
+    margin-right:.75rem;
+}
+
+.why-images{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    grid-auto-rows:180px;
+    gap:1.25rem;
+}
+
+.why-images img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:.5rem;
+}
+
+/* =====  HOW IT WORKS  ===== */
+.how{
+    background:var(--olive);
+    color:#000;
+    display:flex;
+    justify-content:center;
+    gap:2rem;
+    padding:3.5rem 2vw;
+    text-align:center;
+}
+
+.how-step{
+    background:var(--gray-50);
+    padding:2rem 2.2rem;
+    border-radius:1.5rem;
+    max-width:300px;
+}
+
+.how-step h3{margin-bottom:.6rem}
+
+/* =====  Responsive tweaks  ===== */
+@media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr}
+    .hero-img{display:none}
+}
+
+@media (max-width:700px){
+    .why-grid{grid-template-columns:1fr}
+}
