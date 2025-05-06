@@ -1,0 +1,114 @@
+body {
+  background-color: var(--dark-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--cream);
+}
+
+.container {
+  background-color: var(--cream);
+  padding: 40px;
+  border-radius: 12px;
+  width: 380px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: var(--olive);
+}
+
+form input {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 6px;
+  background: rgb(230, 228, 224);
+  color: rgb(0, 0, 0);
+  font-size: 15px;
+  outline: none;
+}
+
+input::placeholder {
+  color: #8c8374;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  border: none;
+  margin-top: 10px;
+}
+
+.btn {
+  background-color: var(--cream);
+  color: var(--olive);
+  font-weight: bold;
+}
+
+.btn:hover {
+  background-color: var(--light-background);
+}
+
+.google-btn {
+  background: #ffffff;
+  color: var(--dark-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.google-btn img {
+  width: 22px;
+  height: 22px;
+}
+
+.forgot-password {
+  text-align: right;
+  font-size: 14px;
+  margin-top: -10px;
+}
+
+.forgot-password a {
+  color: var(--cream);
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+.login-link {
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.login-link a {
+  color: var(--light-background);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+#error-message,
+#error-message-email,
+#error-message-password {
+  color: #f87171;
+  font-size: 13px;
+  text-align: left;
+  margin-top: -10px;
+}

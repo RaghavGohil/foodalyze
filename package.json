@@ -3,10 +3,13 @@
   "dependencies": {
     "@prisma/client": "^6.7.0",
     "@supabase/supabase-js": "^2.49.4",
+    "axios": "^1.9.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "express-handlebars": "^8.0.1"
+    "express-handlebars": "^8.0.1",
+    "express-session": "^1.18.1"
   },
   "prisma": {
     "schema": "./prisma/schema.prisma"

@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { supabase } from '../services/supabaseClient.js'
+import { supabase } from '../services/supabaseClient.js';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,13 @@ export const signup = async (req, res) => {
   try {
     // Sign up with Supabase Auth
     const { data, error } = await supabase.auth.signUp({ email, password });
+
+    // Log the entire response object to check what we are getting
+    console.log('Signup Response:', data);
+    console.log('Signup Error:', error);
+
     if (error) throw error;
+
     // Create user in Prisma database with Supabase user ID and optional fields
     const newUser = await prisma.user.create({
       data: {
@@ -17,12 +23,34 @@ export const signup = async (req, res) => {
         email,
         password,
         gender,    
-        //supabaseUserId: data.id,  // Relating Prisma user with Supabase user by user ID
+        // Link Supabase user ID if required:
+        // supabaseUserId: data.user.id, // Linking Prisma user with Supabase user
       },
     });
-    res.status(200).json({ message: 'Signup successful', user: newUser });
+
+    // Check if session exists
+    const session = data.session;
+    if (!session) {
+      throw new Error("Session object is missing from signup response");
+    }
+
+    // Extract access token if session exists
+    const accessToken = session.access_token;
+    if (!accessToken) {
+      throw new Error("Failed to retrieve access token from session.");
+    }
+
+    // Set the access token in a cookie for session management
+    res.cookie('access_token', accessToken, {
+      httpOnly: true, // To prevent JavaScript access
+      secure: process.env.NODE_ENV === 'production', // Secure cookie in production
+      maxAge: 1000 * 60 * 60 * 24, // 1 day expiration
+    });
+
+    res.redirect('/dashboard'); // Redirect after successful signup
+
   } catch (err) {
-    console.error('Error:', err);
+    console.error('Signup Error:', err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -33,10 +61,36 @@ export const login = async (req, res) => {
   try {
     // Login with Supabase Auth
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    // Log the response data and error to debug
+    console.log('Login Response:', data);
+    console.log('Login Error:', error);
+
     if (error) throw error;
 
-    res.status(200).json({ message: 'Login successful', access_token: data.session.access_token });
+    // Check if session exists
+    const session = data.session;
+    if (!session) {
+      throw new Error("Session object is missing from login response");
+    }
+
+    // Extract access token from the session
+    const accessToken = session.access_token;
+    if (!accessToken) {
+      throw new Error("Failed to retrieve access token from session.");
+    }
+
+    // Set the access token in a cookie for session management
+    res.cookie('access_token', accessToken, {
+      httpOnly: true, // Prevent access to token via JavaScript
+      secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+      maxAge: 1000 * 60 * 60 * 24, // Cookie expires in 1 day
+    });
+
+    res.redirect('/dashboard'); // Redirect after successful login
+
   } catch (err) {
+    console.error('Login Error:', err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -46,8 +100,11 @@ export const logout = async (_req, res) => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
 
-    res.status(200).json({ message: 'Logout successful' });
+    // Clear the cookie on logout
+    res.clearCookie('access_token');
+    res.redirect('/')
   } catch (err) {
+    console.error('Logout Error:', err);
     res.status(400).json({ error: err.message });
   }
 };

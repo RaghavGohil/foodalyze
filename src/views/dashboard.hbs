@@ -6,8 +6,8 @@
     <div class="hero-copy">
       <h1><span>Scan It.</span> Know It.<br />Foodalyze It.</h1>
       <p>Behind every barcode is a story – we decode it for you.</p>
-      <form class="search-bar">
-        <input type="text" placeholder="Search a product or upload an image" />
+      <form class="search-bar" action="/api/product/search" method="GET">
+        <input type="number" name="productId" placeholder="Search a product or upload an image" />
         <button type="submit">
           <svg  xmlns="http://www.w3.org/2000/svg"  width="15"  height="15"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
         </button>
