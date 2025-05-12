@@ -23,8 +23,6 @@ export const signup = async (req, res) => {
         email,
         password,
         gender,    
-        // Link Supabase user ID if required:
-        // supabaseUserId: data.user.id, // Linking Prisma user with Supabase user
       },
     });
 

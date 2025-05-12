@@ -19,6 +19,7 @@ h2 {
   margin-bottom: 20px;
   font-size: 26px;
   color: var(--olive);
+  font-weight: 600;
 }
 
 form input {
@@ -27,14 +28,18 @@ form input {
   margin: 12px 0;
   border: none;
   border-radius: 6px;
-  background: rgb(230, 228, 224);
+  background: rgb(228, 213, 184);
   color: rgb(0, 0, 0);
   font-size: 15px;
   outline: none;
 }
 
 input::placeholder {
-  color: #8c8374;
+  color: #46352d;
+}
+
+p{
+  color:var(--olive);
 }
 
 button {
@@ -49,18 +54,18 @@ button {
 }
 
 .btn {
-  background-color: var(--cream);
-  color: var(--olive);
+  background-color: var(--olive);
+  color: var(--cream);
   font-weight: bold;
 }
 
 .btn:hover {
-  background-color: var(--light-background);
+  background-color: var(--dark-background);
 }
 
 .google-btn {
-  background: #ffffff;
-  color: var(--dark-background);
+  background-color: var(--olive);
+  color: var(--cream);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,14 +77,14 @@ button {
   height: 22px;
 }
 
-.forgot-password {
+a {
   text-align: right;
   font-size: 14px;
   margin-top: -10px;
 }
 
 .forgot-password a {
-  color: var(--cream);
+  color: var(--olive);
   text-decoration: none;
   opacity: 0.8;
 }
@@ -95,7 +100,7 @@ button {
 }
 
 .login-link a {
-  color: var(--light-background);
+  color: var(--olive);
   font-weight: bold;
   text-decoration: none;
 }

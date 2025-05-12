@@ -1,6 +1,6 @@
 import { supabase } from '../services/supabaseClient.js';
 
-const isAuthenticated = async (req, res, next) => {
+export const isAuthenticated = async (req, res, next) => {
   const token = req.cookies['access_token'];  // Read token from cookie
   if (!token) {
     return res.redirect('/');
@@ -12,5 +12,3 @@ const isAuthenticated = async (req, res, next) => {
   req.user = data.user; // Attach the user to the request
   next(); // Move to the next middleware/controller
 };
-
-export { isAuthenticated };

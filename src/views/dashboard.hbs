@@ -1,25 +1,47 @@
-<!--Styles-->
-<link rel="stylesheet" href="/css/dashboard.css"/>
+<!-- Styles -->
+<link rel="stylesheet" href="/css/dashboard.css" />
+
 <header class="hero">
   <div class="hero-inner">
     <img src="/images/food1.png" alt="" class="hero-img" />
     <div class="hero-copy">
       <h1><span>Scan It.</span> Know It.<br />Foodalyze It.</h1>
       <p>Behind every barcode is a story – we decode it for you.</p>
-      <form class="search-bar" action="/api/product/search" method="GET">
-        <input type="number" name="productId" placeholder="Search a product or upload an image" />
+
+      <!-- Unified Form -->
+      <form class="search-bar" action="/api/dashboard/search" method="POST" enctype="multipart/form-data">
+        <!-- input Field for Barcode -->
+        <input type="text" id="productInput" name="productId" placeholder="Enter barcode or upload image" autocomplete="off"/>
+        
+        <!-- Upload Button -->
+        <button type="button" id="uploadBtn" onclick="triggerFileUpload()">
+          📷
+        </button>
+
+        <!-- Hidden File Input -->
+        <input type="file" id="productImage" name="productImage" accept="image/*" style="display: none;" onchange="handleFileUpload(event)" />
+
+        <!-- Cancel Button, initially hidden -->
+        <button type="button" id="cancelBtn" onclick="clearInput()" style="display: none;">
+          ×
+        </button>
+
+        <!-- Submit/Search Button -->
         <button type="submit">
-          <svg  xmlns="http://www.w3.org/2000/svg"  width="15"  height="15"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+            <path d="M21 21l-6 -6" />
+          </svg>
         </button>
       </form>
     </div>
   </div>
 </header>
 
-<!-- ▸▸  WHY  ◂◂ -->
+<!-- ▸▸ WHY ◂◂ -->
 <section class="why">
   <h2><span>Why</span> FOODALYZE</h2>
-
   <div class="why-grid">
     <ul class="why-list">
       <li>Improved physical health</li>
@@ -38,20 +60,86 @@
   </div>
 </section>
 
-<!-- ▸▸  HOW IT WORKS  ◂◂ -->
+<!-- ▸▸ HOW IT WORKS ◂◂ -->
 <section class="how">
   <div class="how-step">
     <h3>Scan</h3>
-    <p>Upload an image of the product or enter its barcode number to get
-      started.</p>
+    <p>Upload an image of the product or enter its barcode number to get started.</p>
   </div>
   <div class="how-step">
     <h3>Analyze</h3>
-    <p>See exactly what’s inside your food — from ingredients to allergens to
-      additives.</p>
+    <p>See exactly what’s inside your food — from ingredients to allergens to additives.</p>
   </div>
   <div class="how-step">
     <h3>Choose Wisely</h3>
     <p>Discover healthier alternatives and make better food choices.</p>
   </div>
 </section>
+
+<script>
+  // Trigger file upload dialog when upload button is clicked
+  function triggerFileUpload() {
+    const imageInput = document.getElementById('productImage');
+    imageInput.value = ''; // Reset file input value so the same file can be re-uploaded
+    imageInput.click(); // Open file chooser dialog
+  }
+
+  // Handle the file selection event
+  function handleFileUpload(event) {
+    const file = event.target.files[0];
+    const textInput = document.getElementById('productInput');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const uploadBtn = document.getElementById('uploadBtn');
+    
+    if (file) {
+      textInput.value = file.name; // Display the file name in the input field
+      textInput.disabled = true; // Disable the input once a file is selected
+      cancelBtn.style.display = 'inline-block'; // Show the cancel button
+      uploadBtn.style.display = 'none'; // Hide the upload button
+      sendBarcodeRequest(file); // Call function to extract barcode from the image
+    }
+  }
+
+  // Send barcode request to the server
+  async function sendBarcodeRequest(file) {
+    const formData = new FormData();
+    formData.append('image', file); // Append the selected file to the form data
+
+    try {
+      const response = await fetch('/api/product/barcode', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get barcode');
+      }
+
+      const data = await response.json();
+      const barcode = data.barcode;
+
+      if (barcode) {
+        document.getElementById('productInput').value = barcode; // Set the barcode value in the input field
+      } else {
+        alert('No barcode found in the image');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error extracting barcode from image');
+    }
+  }
+
+  // Clear the input and reset the form
+  function clearInput() {
+    const textInput = document.getElementById('productInput');
+    const imageInput = document.getElementById('productImage');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const uploadBtn = document.getElementById('uploadBtn');
+
+    textInput.value = ''; // Reset the input field
+    textInput.disabled = false; // Enable the input field
+    imageInput.value = ''; // Reset the file input field
+    cancelBtn.style.display = 'none'; // Hide the cancel button
+    uploadBtn.style.display = 'inline-block'; // Show the upload button again
+  }
+</script>

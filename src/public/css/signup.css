@@ -1,99 +1,102 @@
 body {
-  background-color: var(--dark-background);
+  background-color: var(--dark-background); /* dark olive */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
-  font-family: Arial, sans-serif;
+  color: var(--olive);
 }
 
 .container {
-  background: #1e1e1e;
+  background: var(--cream); /* cream */
   padding: 40px;
   border-radius: 12px;
-  width: 450px;
+  width: 420px;
   text-align: center;
-  color: white;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 .container h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
+  margin-bottom: 24px;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--olive);
 }
 
-input, select {
+form input,
+form select {
   width: 100%;
   padding: 12px;
-  margin: 12px 0 6px;
-  border: none;
+  margin: px 0 6px;
+  background: rgb(228, 213, 184);
   border-radius: 6px;
-  background: #2a2a2a;
-  color: white;
   font-size: 16px;
+  border: none;
+  outline: none;
 }
 
-span {
-  font-size: 14px;
-  color: red;
-  display: block;
-  text-align: left;
+input::placeholder {
+  color: #46352d;
 }
 
 .gender-group {
   text-align: left;
-  margin-top: 10px;
+  margin-top: 16px;
 }
 
 .gender-group label {
-  display: block;
+  font-size: 15px;
   margin-bottom: 6px;
-  font-size: 16px;
-  color: #cccccc;
+  color: var(--subtle-text);
 }
 
 .gender-group select {
-  width: 100%;
-  padding: 12px;
-  border-radius: 6px;
-  background: #2a2a2a;
-  color: white;
+  background: var(--input-bg);
+  color: var(--text-color);
+  outline: none;
   border: none;
-  font-size: 16px;
 }
 
-.age-group {
+span {
+  font-size: 14px;
+  color: var(--error-color);
+  display: block;
   text-align: left;
-  margin-top: 10px;
+  margin-bottom: 4px;
+  min-height: 18px;
 }
 
 .btn {
   width: 100%;
   padding: 14px;
-  background: #ff6b6b;
+  background: var(--olive); /* olive */
   border: none;
   border-radius: 6px;
-  color: white;
-  font-size: 18px;
+  color: var(--cream);
+  font-size: 17px;
   cursor: pointer;
-  margin-top: 15px;
-  transition: 0.3s;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+  outline: none;
 }
 
 .btn:hover {
-  background: #ff4f4f;
+  background: var(--dark-background); /* lighter olive */
 }
 
 .google-btn {
-  background: #ffffff;
-  color: #000;
+  background: var(--olive); 
+  color: var(--cream);
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   font-size: 16px;
   padding: 12px;
+  margin-top: 16px;
+  border-radius: 6px;
+  outline: none;
+  border: none;
 }
 
 .google-btn img {
@@ -102,12 +105,16 @@ span {
 }
 
 .login-link {
-  margin-top: 20px;
-  font-size: 16px;
+  margin-top: 24px;
+  font-size: 15px;
 }
 
 .login-link a {
-  color: #D27F89;
-  text-decoration: none;
+  color: var(--olive);
   font-weight: bold;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
 }

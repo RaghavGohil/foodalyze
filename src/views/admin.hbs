@@ -1,0 +1,123 @@
+<!-- Styles -->
+<link rel="stylesheet" href="/css/admin.css" />
+<body>
+  <div class="sidebar">
+    <h2>FOODALYZE</h2>
+    <ul>
+      <li class="{{#eq section 'dashboard'}}active{{/eq}}"><a href="/admin"><button>Dashboard</button></a></li>
+      <li class="{{#eq section 'users'}}active{{/eq}}"><a href="/admin/users"><button>Users</button></a></li>
+      <li class="{{#eq section 'products'}}active{{/eq}}"><a href="/admin/products"><button>Products</button></a></li>
+      <li class="{{#eq section 'settings'}}active{{/eq}}"><a href="/admin/settings"><button>Settings</button></a></li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <h1>Admin Panel</h1>
+
+    {{#eq section 'dashboard'}}
+      <section class="section">
+        <div class="cards">
+          <div class="card"><p>Total Users</p><h2>{{stats.totalUsers}}</h2></div>
+          <div class="card"><p>Total Products</p><h2>{{stats.totalProducts}}</h2></div>
+        </div>
+        <div class="activity-graph">
+          <canvas id="searchChart"></canvas>
+        </div>
+      </section>
+    {{/eq}}
+
+    {{#eq section 'users'}}
+      <section>
+        <h2>Users</h2>
+        <form method="get" action="/admin/users">
+          <input type="text" name="search" placeholder="Search by name or email" value="{{search}}" />
+          <select name="filter">
+            <option value="all" {{#if (eq filter 'all')}}selected{{/if}}>All</option>
+            <option value="recent" {{#if (eq filter 'recent')}}selected{{/if}}>Recent</option>
+            <option value="inactive" {{#if (eq filter 'inactive')}}selected{{/if}}>Inactive</option>
+          </select>
+          <button type="submit">Filter</button>
+        </form>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Date Joined</th><th>Last Login</th><th>Total Scans</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            {{#each users}}
+              <tr>
+                <td>{{user_metadata.full_name}}</td>
+                <td>{{email}}</td>
+                <td>{{confirmed_at}}</td>
+                <td>{{last_sign_in_at}}</td>
+                <td>{{user_metadata.scansCount}}</td>
+                <td><a href="/admin/users/{{id}}">View</a></td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </section>
+    {{/eq}}
+
+    {{#eq section 'products'}}
+      <section>
+        <h2>Products</h2>
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Brand</th><th>Uploaded By</th><th>Date Added</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            {{#each products}}
+              <tr>
+                <td>{{name}}</td>
+                <td>{{brand}}</td>
+                <td>{{uploaded_by}}</td>
+                <td>{{created_at}}</td>
+                <td>{{status}}</td>
+                <td>
+                  {{#eq status 'pending'}}
+                    <form method="post" action="/admin/products/{{id}}/approve" style="display:inline;"><button type="submit">Approve</button></form>
+                  {{/eq}}
+                  <form method="post" action="/admin/products/{{id}}/delete" style="display:inline;"><button type="submit">Delete</button></form>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <h3>Add New Product</h3>
+        <form method="post" action="/admin/products">
+          <input type="text" name="name" placeholder="Product Name" required />
+          <input type="text" name="brand" placeholder="Brand" required />
+          <input type="text" name="ingredients" placeholder="Ingredients" required />
+          <input type="text" name="category" placeholder="Category" required />
+          <button type="submit">Add Product</button>
+        </form>
+      </section>
+    {{/eq}}
+
+    {{#eq section 'settings'}}
+      <section>
+        <h2>Settings</h2>
+        <form method="post" action="/admin/logout"><button type="submit">Logout</button></form>
+      </section>
+    {{/eq}}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('searchChart');
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'Searches per Day',
+            data: [12, 19, 3, 5, 2, 3, 9],
+            borderColor: '#4f432d',
+            fill: false
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { display: true } } }
+      });
+    }
+  </script>
+</body>

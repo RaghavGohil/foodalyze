@@ -19,6 +19,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 import { engine } from 'express-handlebars';
+import helpers  from 'handlebars-helpers';
+
 app.use(express.urlencoded({ extended: true })); // for HTML form
 
 app.use(session({
@@ -29,17 +31,26 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, './src/public')));
-app.engine('hbs', engine({extname:'hbs'}));
+app.engine('hbs', engine(
+  {
+    extname:'hbs',
+    helpers:helpers()
+  }
+));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, './src/views'));
 
 // Routes
 import authRoutes from './src/routes/authRoutes.js';
 import pageRoutes from './src/routes/pageRoutes.js';
-import productRoutes from './src/routes/productRoutes.js';
+import dashboardRoutes from './src/routes/dashboardRoutes.js';
+import adminRoutes from './src/routes/adminRoutes.js';
 app.use('/', pageRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/product/', productRoutes);
+app.use('/', dashboardRoutes);
+app.use('/', adminRoutes);
+
+import './initialize.js'
 
 // Serve application
 app.listen(3000, () => {

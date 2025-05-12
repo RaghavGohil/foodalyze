@@ -34,22 +34,24 @@
 
 .search-bar{
     display:flex;
+    border-radius: 10px;
     max-width:420px;
+    height:40px;
 }
 
 .search-bar input{
     flex:1;
-    padding:.9rem 1rem;
+    padding:1rem;
+    height:100%;
     border: 1px solid var(--olive);
-    border-radius:1rem 0 0 1rem;
 }
 
 .search-bar button{
     border:none;
     background:var(--olive);
+    width:40px;
+    height:100%;
     color:#fff;
-    padding:0 1.2rem;
-    border-radius:0 1rem 1rem 0;
     cursor:pointer;
 }
 
