@@ -1,8 +1,28 @@
 //This is the products's schema 
 
+enum NutriScore {
+    A
+    B
+    C
+    D
+    E
+}
+
 model Product {
     id Int @id @default(autoincrement())  
-    data Json?
+    
+    productName String
+    brandName String
+    barcode String
+    allergens String
+    ingredients String
+    packagingDetails String
+    categories String
+    nutriScore NutriScore 
+    novaScore Int 
+    data Json
+
+    productImage Bytes
 
     searchHistory SearchHistory[]
 

@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import { supabase } from '../services/supabaseClient.js';
-
-const prisma = new PrismaClient();
+import { supabase } from "../services/supabaseClient.js";
+import { prisma } from "../services/prismaClient.js";
 
 export const signup = async (req, res) => {
   const { email, password, name, phone, gender } = req.body;
@@ -10,19 +8,20 @@ export const signup = async (req, res) => {
     const { data, error } = await supabase.auth.signUp({ email, password });
 
     // Log the entire response object to check what we are getting
-    console.log('Signup Response:', data);
-    console.log('Signup Error:', error);
+    console.log("Signup Response:", data);
+    console.log("Signup Error:", error);
 
     if (error) throw error;
+
+    const authUserId = data.user.id;
 
     // Create user in Prisma database with Supabase user ID and optional fields
     const newUser = await prisma.user.create({
       data: {
-        name,      
-        phone,     
-        email,
-        password,
-        gender,    
+        name,
+        phone,
+        gender,
+        authUserId,
       },
     });
 
@@ -39,16 +38,15 @@ export const signup = async (req, res) => {
     }
 
     // Set the access token in a cookie for session management
-    res.cookie('access_token', accessToken, {
+    res.cookie("access_token", accessToken, {
       httpOnly: true, // To prevent JavaScript access
-      secure: process.env.NODE_ENV === 'production', // Secure cookie in production
+      secure: process.env.NODE_ENV === "production", // Secure cookie in production
       maxAge: 1000 * 60 * 60 * 24, // 1 day expiration
     });
 
-    res.redirect('/dashboard'); // Redirect after successful signup
-
+    res.redirect("/dashboard"); // Redirect after successful signup
   } catch (err) {
-    console.error('Signup Error:', err);
+    console.error("Signup Error:", err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -58,11 +56,14 @@ export const login = async (req, res) => {
 
   try {
     // Login with Supabase Auth
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
     // Log the response data and error to debug
-    console.log('Login Response:', data);
-    console.log('Login Error:', error);
+    console.log("Login Response:", data);
+    console.log("Login Error:", error);
 
     if (error) throw error;
 
@@ -79,16 +80,15 @@ export const login = async (req, res) => {
     }
 
     // Set the access token in a cookie for session management
-    res.cookie('access_token', accessToken, {
+    res.cookie("access_token", accessToken, {
       httpOnly: true, // Prevent access to token via JavaScript
-      secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+      secure: process.env.NODE_ENV === "production", // Secure cookies in production
       maxAge: 1000 * 60 * 60 * 24, // Cookie expires in 1 day
     });
 
-    res.redirect('/dashboard'); // Redirect after successful login
-
+    res.redirect("/dashboard"); // Redirect after successful login
   } catch (err) {
-    console.error('Login Error:', err);
+    console.error("Login Error:", err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -99,10 +99,10 @@ export const logout = async (_req, res) => {
     if (error) throw error;
 
     // Clear the cookie on logout
-    res.clearCookie('access_token');
-    res.redirect('/')
+    res.clearCookie("access_token");
+    res.redirect("/");
   } catch (err) {
-    console.error('Logout Error:', err);
+    console.error("Logout Error:", err);
     res.status(400).json({ error: err.message });
   }
 };
