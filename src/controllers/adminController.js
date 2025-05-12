@@ -232,7 +232,7 @@ export const addProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-  const { productId } = req.body;
+  const { productId } = req.query;
 
   if (!productId) {
     return res

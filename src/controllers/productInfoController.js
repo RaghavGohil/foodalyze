@@ -1,32 +1,49 @@
 import { genAI } from "../services/geminiClient.js";
 import axios from "axios";
+import { supabase } from "../services/supabaseClient.js";
 
 export const productInfo = async (req, res) => {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-  const barcode = req.query.productId;
+  const productId = req.query.productId;
 
-  if (!barcode) {
+  if (!productId) {
     return res.status(400).send("Missing productId in query.");
   }
 
   try {
-    // Fetching product data from Open Food Facts API
-    const { data } = await axios.get(
-      `https://world.openfoodfacts.org/api/v0/product/${barcode}`
-    );
-    if (data.status === 0) {
-      return res.status(404).send("Product not found.");
+    // Fetch product from Supabase by productId
+    const { data: product, error } = await supabase
+      .from("Product")
+      .select("*")
+      .eq("barcode", productId)
+      .limit(1)
+      .single();
+
+    // Convert hex to buffer and then to base64 for each product image
+    let base64Image = null;
+    if (product.productImage) {
+      // Remove '\x' prefix from the hex string and convert it to a buffer
+      const hexString = product.productImage.replace(/\\x/g, ""); // Removing the '\x' parts
+      const hexBuffer = Buffer.from(hexString, "hex");
+      // Convert the buffer to base64
+      base64Image = `data:image/jpeg;base64,${hexBuffer.toString("base64")}`;
     }
 
-    // Building prompt for AI model
-    const prompt = `
-      You are an AI tool to analyze JSON data.
+    product.base64Image = base64Image;
+    product.nutriScore = product.nutriScore.toLowerCase();
 
-      The data is:
-      Product Name: ${JSON.stringify(data.product.product_name)}
-      Allergens: ${JSON.stringify(data.product.allergens)}
-      Ingredients: ${JSON.stringify(data.product.ingredients)}
+    if (error || !product) {
+      return res.status(404).send("Product not found in database.");
+    }
+
+    // Build prompt for AI
+    const prompt = `
+      You are an AI tool to analyze product data stored in a JSON-like structure.
+
+      Product Name: ${JSON.stringify(product.name || "")}
+      Allergens: ${JSON.stringify(product.allergens || "")}
+      Ingredients: ${JSON.stringify(product.ingredients || "")}
 
       Give personal health warnings for the ingredients and suggest healthy alternatives.
 
@@ -42,31 +59,30 @@ export const productInfo = async (req, res) => {
       }
     `;
 
-    // Generate content from AI model
+    // Call Gemini
     const result = await model.generateContent(prompt);
     const response = await result.response;
 
     let raw = await response.text();
 
-    // 🧼 Clean up possible markdown formatting (including removing backticks)
-    raw = raw.replace(/```json\s*|\s*```/g, '').trim();
+    // Clean up potential formatting
+    raw = raw.replace(/```json\s*|\s*```/g, "").trim();
 
     let aiResponse = {};
     try {
-      aiResponse = JSON.parse(raw);  // Parse AI response into JSON
+      aiResponse = JSON.parse(raw);
     } catch (jsonErr) {
-      console.error("Failed to parse AI response:", jsonErr.message);
+      console.error("Failed to parse Gemini AI response:", jsonErr.message);
       return res.status(500).send("AI response could not be parsed.");
     }
 
-    // Render the response on the product_info page
+    // Render with product and AI info
     res.render("product_info", {
-      product: data.product,
-      aiResponse: aiResponse
+      product: product,
+      aiResponse: aiResponse,
     });
-
   } catch (err) {
-    console.error("Axios or AI error:", err.message);
+    console.error("Supabase or Gemini error:", err.message);
     res.status(500).send("Internal Server Error");
   }
 };

@@ -5,6 +5,12 @@ body {
   margin: 0;
 }
 
+.tableimage{
+  width:200px;
+  height:300px;
+  object-fit:cover;
+}
+
 .sidebar {
   width: 200px;
   background-color: var(--dark-background);

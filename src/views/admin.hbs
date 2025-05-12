@@ -66,14 +66,11 @@
                 <td>{{productName}}</td>
                 <td>{{brandName}}</td>
                 <td>{{barcode}}</td>
-                <td><img src="{{base64Image}}" alt="ProductImage"></td>
+                <td><img src="{{base64Image}}" class="tableimage" alt="ProductImage"></td>
                 <td>{{createdAt}}</td>
                 <td>{{updatedAt}}</td>
                 <td>
-                  {{#eq status 'pending'}}
-                    <form method="post" action="/admin/products/{{id}}/approve" style="display:inline;"><button type="submit">Approve</button></form>
-                  {{/eq}}
-                  <form method="post" action="/admin/products/{{id}}/delete" style="display:inline;"><button type="submit">Delete</button></form>
+                  <form method="post" action="/api/admin/product-management/delete?productId={{id}}" style="display:inline;"><button type="submit">Delete</button></form>
                 </td>
               </tr>
             {{/each}}

@@ -14,30 +14,29 @@
     <div class="product-details">
       <div class="image-container">
         <img
-          src="{{product.selected_images.front.display.en}}"
+          src="{{product.base64Image}}"
           alt="Product Image"
         />
         <div class="nutrition-scores">
           <div class="nutrition-score">
             <img
-              src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-{{product.nutriscore_data.grade}}-new-en.svg"
+              src="https://static.openfoodfacts.org/images/attributes/dist/nutriscore-{{product.nutriScore}}-new-en.svg"
               alt="Nutri-Score"
             />
           </div>
           <div class="nutrition-score">
             <img
-              src="https://static.openfoodfacts.org/images/attributes/dist/nova-group-{{product.nova_group}}.svg"
+              src="https://static.openfoodfacts.org/images/attributes/dist/nova-group-{{product.novaScore}}.svg"
               alt="NOVA Group"
             />
           </div>
         </div>
       </div>
       <div class="details-container">
-        <h2>{{{product.product_name}}}</h2>
-        <p><strong>Barcode Number:</strong>{{{product.code}}}</p>
-        <p><strong>Brand Name:</strong> {{{product.brands}}}</p>
-        <p><strong>Common Name:</strong>{{{product.generic_name}}}</p>
-        <p><strong>Packaging:</strong> {{{product.packaging}}}</p>
+        <h2>{{{product.productName}}}</h2>
+        <p><strong>Barcode Number:</strong>{{{product.barcode}}}</p>
+        <p><strong>Brand Name:</strong> {{{product.brandName}}}</p>
+        <p><strong>Packaging:</strong> {{{product.packagingDetails}}}</p>
         <p><strong>Categories:</strong>
           <span class="categories">{{{product.categories}}}</span></p>
         <div class="button-group">
