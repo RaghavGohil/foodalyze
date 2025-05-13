@@ -221,10 +221,7 @@ export const addProduct = async (req, res) => {
       },
     });
 
-    res.status(201).json({
-      message: "Product added successfully",
-      product: newProduct,
-    });
+    res.redirect('/admin/product-management')
   } catch (error) {
     console.error("Error adding product:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -249,7 +246,7 @@ export const deleteProduct = async (req, res) => {
 
     if (productDeleteError) throw productDeleteError;
 
-    res.json({ success: true });
+    res.redirect('/admin/product-management')
   } catch (error) {
     console.error("Error deleting product:", error);
     res.status(500).json({ success: false, message: "Server error" });

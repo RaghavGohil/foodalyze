@@ -40,24 +40,44 @@ export const productInfo = async (req, res) => {
     }
 
     const { data: user, error: userError } = await supabase
-      .from("User")
-      .select("id")
-      .eq("authUserId", req.user.id)
-      .single();
+    .from('User')
+    .select(`
+      id,
+      name,
+      phone,
+      gender,
+      UserInformation (
+        id,
+        bmi,
+        dietaryPref,
+        activityLevel,
+        healthConditions,
+        allergies,
+        preferredCuisines,
+        avoidedCuisines,
+        medications
+      )
+    `)
+    .eq('authUserId', req.user.id)
+    .single();
 
     if (userError || !user) {
       return res.status(404).send("User not found.");
     }
 
+    if (userError || !user) {
+      return res.status(404).send("User not found.");
+    }
     // Step 4: Gemini AI prompt
     const prompt = `
       You are an AI tool to analyze product data stored in a JSON-like structure.
 
+      User Details: ${JSON.stringify(user.UserInformation || "")}
       Product Name: ${JSON.stringify(product.name || "")}
       Allergens: ${JSON.stringify(product.allergens || "")}
       Ingredients: ${JSON.stringify(product.ingredients || "")}
 
-      Give personal health warnings for the ingredients and suggest healthy alternatives.
+      Give personal health warnings for the ingredients and suggest healthy alternatives, explain in depth.
 
       For healthier alternatives, also give healthier products to use.
 

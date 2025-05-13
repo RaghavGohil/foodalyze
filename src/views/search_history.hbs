@@ -1,18 +1,33 @@
-<!--Styles-->
 <link rel="stylesheet" href="/css/search_history.css" />
-<body>
-  <div class="history-list">
-    <h2>Product Search History</h2>
-    <ul>
-      {{#each searchHistory}}
-        <li class="history-item">
-          <div class="product-details">
-            <h3>{{data.product.productName}}</h3>
-            <p>Time: {{createdAt}}</p>
-          </div>
-          <a href="{{this.link}}" class="view-link" target="_blank">View Details</a>
-        </li>
-      {{/each}}
-    </ul>
-  </div>
-</body>
+
+<main class="profile-container">
+  <aside class="sidebar">
+  </aside>
+
+  <section class="history-content">
+    <h1>Search History</h1>
+
+    {{#if searchHistory.length}}
+      <ul class="history-list">
+        {{#each searchHistory}}
+          <li class="history-item">
+            <div class="product-details">
+              <h3>{{data.product.productName}}</h3>
+              <p>Time: {{createdAt}}</p>
+            </div>
+            <div class="actions">
+              <form action="/api/search-history/delete?searchHistoryId={{id}}" method="POST">
+                <button type="submit">Delete</button>
+              </form>
+              <a href="/search-history/product-info?productId={{id}}" target="_blank" class="view-link">
+                <button>View Details</button>
+              </a>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <h2 class="empty-message">Nothing to show now</h2>
+    {{/if}}
+  </section>
+</main>
