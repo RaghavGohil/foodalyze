@@ -30,12 +30,15 @@ export const getUserInfo = async (req, res) => {
     return res.status(500).json({ error: 'Failed to fetch user information' });
   }
 
-  const userInfo = user.user_information?.[0] || null;
+  const userInfo = user.UserInformation[0]
 
   res.render('user_info',{
     name: user.name,
     phone: user.phone,
     gender: user.gender,
+    dietaryPrefs: ['VEGETARIAN', 'VEGAN', 'KETO', 'PALEO', 'LOW_CARB', 'OMNIVORE'],
+    genders: ['MALE', 'FEMALE', 'OTHER'],
+    activityLevels: ['SEDENTARY', 'LIGHT', 'MODERATE', 'ACTIVE', 'VERY_ACTIVE'], 
     ...userInfo,
   });
 };
@@ -81,41 +84,29 @@ export const updateUserInfo = async (req, res) => {
     return res.status(500).json({ error: 'Failed to update user' });
   }
 
-  // Step 3: Check if user_information exists
-  const { data: infoData, error: infoError } = await supabase
-    .from('userInformation')
-    .select('id')
-    .eq('userId', userId)
-    .single();
-
+  // Step 3: Check and upsert userInformation
   const payload = {
     userId,
     bmi: parseFloat(bmi),
     dietaryPref,
     activityLevel,
     healthConditions,
-    allergies: allergies,
-    preferredCuisines: preferredCuisines,
-    avoidedCuisines: avoidedCuisines,
-    medications: medications,
+    allergies,
+    preferredCuisines,
+    avoidedCuisines,
+    medications,
+    updatedAt: new Date().toISOString(),
   };
 
-  let result;
-  if (infoData) {
-    // Update
-    result = await supabase
-      .from('UserInformation')
-      .update(payload)
-      .eq('userId', userId);
-  } else {
-    // Insert
-    result = await supabase.from('UserInformation').insert(payload);
-  }
+  // Using upsert to handle both insert and update
+  const { error: upsertError } = await supabase
+    .from('UserInformation')
+    .upsert([payload], { onConflict: ['userId'] });
 
-  if (result.error) {
-    console.error(result.error);
+  if (upsertError) {
+    console.error(upsertError);
     return res.status(500).json({ error: 'Failed to update user information' });
   }
 
-  res.render('user-info');
+  res.redirect('/user-info');
 };

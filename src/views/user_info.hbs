@@ -17,62 +17,46 @@
       <input type="text" id="phone" name="phone" value="{{phone}}" required />
 
       <label for="gender">Gender</label>
-      <select id="gender" name="gender" value="{{gender}}" required>
-        <option value="MALE">Male</option>
-        <option value="FEMALE">Female</option>
-        <option value="OTHER">Other</option>
-      </select>
+      <select name="gender" id="gender">
+        {{#each genders}}
+          <option value="{{this}}" {{#if (eq this ../gender)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select> 
 
       <h2>Health Information (Optional)</h2>
 
       <label for="bmi">BMI</label>
-      <input type="number" step="0.1" id="bmi" name="bmi" value="{{userInfo.bmi}}" required />
+      <input type="number" step="0.1" id="bmi" name="bmi" value="{{bmi}}"/>
 
       <label for="dietaryPref">Dietary Preference</label>
-      <select id="dietaryPref" name="dietaryPref" value="{{userInfo.dietaryPref}}">
-        <option value="">Select</option>
-        <option value="VEGETARIAN">Vegetarian</option>
-        <option value="VEGAN">Vegan</option>
-        <option value="KETO">Keto</option>
-        <option value="PALEO">Paleo</option>
-        <option value="LOW_CARB">Low Carb</option>
-        <option value="OMNIVORE">Omnivore</option>
+      <select name="dietaryPref" id="dietaryPref">
+        {{#each dietaryPrefs}}
+          <option value="{{this}}" {{#if (eq this ../dietaryPref)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
       </select>
 
       <label for="activityLevel">Activity Level</label>
-      <select id="activityLevel" name="activityLevel" value="{{userInfo.activityLevel}}">
-        <option value="">Select</option>
-        <option value="SEDENTARY">Sedentary</option>
-        <option value="LIGHT">Light</option>
-        <option value="MODERATE">Moderate</option>
-        <option value="ACTIVE">Active</option>
-        <option value="VERY_ACTIVE">Very Active</option>
-      </select>
+      <select name="activityLevel" id="activityLevel">
+        {{#each activityLevels}}
+          <option value="{{this}}" {{#if (eq this ../activityLevel)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select> 
 
       <label>Health Conditions (select all that apply)</label>
-      <div class="checkbox-group" id="healthConditions">
-        <label><input type="checkbox" name="healthConditions" value="CARDIOVASCULAR" /> Cardiovascular</label>
-        <label><input type="checkbox" name="healthConditions" value="UNDERWEIGHT" /> Underweight</label>
-        <label><input type="checkbox" name="healthConditions" value="OBESE" /> Obese</label>
-        <label><input type="checkbox" name="healthConditions" value="NAFLD" /> NAFLD</label>
-        <label><input type="checkbox" name="healthConditions" value="HYPERTENSION" /> Hypertension</label>
-        <label><input type="checkbox" name="healthConditions" value="DIABETES_TYPE_1" /> Diabetes Type 1</label>
-        <label><input type="checkbox" name="healthConditions" value="DIABETES_TYPE_2" /> Diabetes Type 2</label>
-        <label><input type="checkbox" name="healthConditions" value="PRE_DIABETIC" /> Pre-diabetic</label>
-        <label><input type="checkbox" name="healthConditions" value="NONE" /> None</label>
-      </div>
+      <input type="text" id="healthConditions" name="healthConditions" placeholder="For example: I have diabetes..." value="{{healthConditions}}"/>
+   
 
       <label for="allergies">Allergies (comma separated)</label>
-      <input type="text" id="allergies" name="allergies" placeholder="e.g. peanuts, gluten" value="{{userInfo.allergies}}"/>
+      <input type="text" id="allergies" name="allergies" placeholder="For example: Peanuts, gluten.." value="{{allergies}}"/>
 
       <label for="preferredCuisines">Preferred Cuisines (comma separated)</label>
-      <input type="text" id="preferredCuisines" name="preferredCuisines" value="{{userInfo.preferredCuisines}}"/>
+      <input type="text" id="preferredCuisines" name="preferredCuisines" placeholder="I like Italian food..." value="{{preferredCuisines}}"/>
 
       <label for="avoidedCuisines">Avoided Cuisines (comma separated)</label>
-      <input type="text" id="avoidedCuisines" name="avoidedCuisines" value="{{userInfo.avoidedCuisines}}"/>
+      <input type="text" id="avoidedCuisines" name="avoidedCuisines" placeholder="I don't like Chinese food..." value="{{avoidedCuisines}}"/>
 
       <label for="medications">Medications (comma separated)</label>
-      <input type="text" id="medications" name="medications" value="{{userInfo.medications}}"/>
+      <input type="text" id="medications" name="medications" placeholder="I take xyz pills and tablets..." value="{{medications}}"/>
 
       <button type="submit">Save Changes</button>
     </form>
