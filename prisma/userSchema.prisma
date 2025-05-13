@@ -16,7 +16,7 @@ model User {
     authUserId String
 
     //reverse relation fields
-    userInformation UserInformation[]
+    userInformation UserInformation
     searchHistory SearchHistory[]
 
     //metadata
@@ -43,28 +43,16 @@ enum ActivityLevel {
   VERY_ACTIVE
 }
 
-enum HealthCondition {
-  CARDIOVASCULAR
-  UNDERWEIGHT
-  OBESE
-  NAFLD
-  HYPERTENSION
-  DIABETES_TYPE_1
-  DIABETES_TYPE_2
-  PRE_DIABETIC
-  NONE
-}
-
 model UserInformation {
   id               Int                 @id @default(autoincrement())
   bmi              Float
   dietaryPref      DietaryPreference
   activityLevel    ActivityLevel
-  healthConditions HealthCondition[]   // array of enums
-  allergies        String[]            // or you can normalize to a table
-  preferredCuisines String[]
-  avoidedCuisines   String[]
-  medications      String[]            // or relate to a separate Medications table
+  healthConditions String             // array of enums
+  allergies        String            // or you can normalize to a table
+  preferredCuisines String
+  avoidedCuisines   String
+  medications      String            // or relate to a separate Medications table
 
   userId            Int                @unique
   user              User               @relation(fields: [userId], references: [id])

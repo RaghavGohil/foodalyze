@@ -1,4 +1,5 @@
 body {
+  margin: 0;
   background-color: #ffffff;
   color: #000;
 }
@@ -10,6 +11,18 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.checkbox-group label {
+  font-weight: normal;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
 }
 
 .logo {
@@ -28,42 +41,28 @@ nav a {
 /* Layout */
 .profile-container {
   display: flex;
-  height: calc(100vh - 72px); /* Adjust height according to header */
+  flex-direction: row;
+  width: 100%;
 }
 
+/* Sidebar scrolls with content */
 .sidebar {
   width: 140px;
   background-color: #594c39;
+  padding: 20px 0;
 }
 
 /* Profile Section */
 .profile-form-section {
-  flex: 1;
-  display: flex;
-  padding: 3rem;
-  align-items: flex-start;
+  flex-grow: 1;
+  padding: 30px;
 }
 
-.profile-image {
-  margin-right: 4rem;
-}
-
-.image-placeholder {
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  background-color: #d9d9d9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-}
-
-/* Form */
 .profile-form {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  max-width: 600px;
+  width: 100%;
 }
 
 .profile-form label {
@@ -71,7 +70,8 @@ nav a {
   font-size: 0.9rem;
 }
 
-.profile-form input {
+.profile-form input,
+.profile-form select {
   margin-bottom: 1rem;
   padding: 0.5rem;
   border: 1px solid #e5dcdc;
@@ -88,4 +88,13 @@ button {
   cursor: pointer;
   font-size: 0.9rem;
   width: fit-content;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Optional: space out logout button */
+.profile-form + .profile-form {
+  margin-top: 2rem;
 }

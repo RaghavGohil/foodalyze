@@ -47,7 +47,9 @@ export const productInfo = async (req, res) => {
 
       Give personal health warnings for the ingredients and suggest healthy alternatives.
 
-      Give the response in the following format **strictly as JSON** with no markdown or extra text:
+      For healthier alternatives, also give healtier products to use.
+
+      Give the response in the following format **strictly as JSON with no nesting** with no markdown or extra text:
       {
         "summary": "<your_response>",
         "ingredientsToTrust": "<your_response>",

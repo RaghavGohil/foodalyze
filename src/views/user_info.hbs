@@ -1,27 +1,85 @@
-<!--Styles-->
 <link rel="stylesheet" href="/css/user_info.css" />
-  <script src="userinfo.js"></script>
-  <main class="profile-container">
-    <aside class="sidebar"></aside>
+<script src="/js/userinfo.js"></script>
 
-    <section class="profile-form-section">
-      <form class="profile-form">
-        <label for="name">Name</label>
-        <input type="text" id="name" />
+<main class="profile-container">
+  <aside class="sidebar"></aside>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" />
+  <section class="profile-form-section">
+    <!-- User Information Form -->
+    <h1>Edit Profile</h1>
+    <form class="profile-form" method="POST" action="/api/user-info/update">
+      <h2>User Information</h2>
 
-        <label for="age">Age</label>
-        <input type="number" id="age" />
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" value="{{name}}" required />
 
-        <label for="password">Password</label>
-        <input type="password" id="password" />
+      <label for="phone">Phone</label>
+      <input type="text" id="phone" name="phone" value="{{phone}}" required />
 
-        <button type="submit">Save Changes</button>
-      </form>
-      <form action="/api/auth/logout", method="POST">
-        <button type="submit">logout</button>
-      </form>
-    </section>
-  </main>
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" value="{{gender}}" required>
+        <option value="MALE">Male</option>
+        <option value="FEMALE">Female</option>
+        <option value="OTHER">Other</option>
+      </select>
+
+      <h2>Health Information (Optional)</h2>
+
+      <label for="bmi">BMI</label>
+      <input type="number" step="0.1" id="bmi" name="bmi" value="{{userInfo.bmi}}" required />
+
+      <label for="dietaryPref">Dietary Preference</label>
+      <select id="dietaryPref" name="dietaryPref" value="{{userInfo.dietaryPref}}">
+        <option value="">Select</option>
+        <option value="VEGETARIAN">Vegetarian</option>
+        <option value="VEGAN">Vegan</option>
+        <option value="KETO">Keto</option>
+        <option value="PALEO">Paleo</option>
+        <option value="LOW_CARB">Low Carb</option>
+        <option value="OMNIVORE">Omnivore</option>
+      </select>
+
+      <label for="activityLevel">Activity Level</label>
+      <select id="activityLevel" name="activityLevel" value="{{userInfo.activityLevel}}">
+        <option value="">Select</option>
+        <option value="SEDENTARY">Sedentary</option>
+        <option value="LIGHT">Light</option>
+        <option value="MODERATE">Moderate</option>
+        <option value="ACTIVE">Active</option>
+        <option value="VERY_ACTIVE">Very Active</option>
+      </select>
+
+      <label>Health Conditions (select all that apply)</label>
+      <div class="checkbox-group" id="healthConditions">
+        <label><input type="checkbox" name="healthConditions" value="CARDIOVASCULAR" /> Cardiovascular</label>
+        <label><input type="checkbox" name="healthConditions" value="UNDERWEIGHT" /> Underweight</label>
+        <label><input type="checkbox" name="healthConditions" value="OBESE" /> Obese</label>
+        <label><input type="checkbox" name="healthConditions" value="NAFLD" /> NAFLD</label>
+        <label><input type="checkbox" name="healthConditions" value="HYPERTENSION" /> Hypertension</label>
+        <label><input type="checkbox" name="healthConditions" value="DIABETES_TYPE_1" /> Diabetes Type 1</label>
+        <label><input type="checkbox" name="healthConditions" value="DIABETES_TYPE_2" /> Diabetes Type 2</label>
+        <label><input type="checkbox" name="healthConditions" value="PRE_DIABETIC" /> Pre-diabetic</label>
+        <label><input type="checkbox" name="healthConditions" value="NONE" /> None</label>
+      </div>
+
+      <label for="allergies">Allergies (comma separated)</label>
+      <input type="text" id="allergies" name="allergies" placeholder="e.g. peanuts, gluten" value="{{userInfo.allergies}}"/>
+
+      <label for="preferredCuisines">Preferred Cuisines (comma separated)</label>
+      <input type="text" id="preferredCuisines" name="preferredCuisines" value="{{userInfo.preferredCuisines}}"/>
+
+      <label for="avoidedCuisines">Avoided Cuisines (comma separated)</label>
+      <input type="text" id="avoidedCuisines" name="avoidedCuisines" value="{{userInfo.avoidedCuisines}}"/>
+
+      <label for="medications">Medications (comma separated)</label>
+      <input type="text" id="medications" name="medications" value="{{userInfo.medications}}"/>
+
+      <button type="submit">Save Changes</button>
+    </form>
+
+    <!-- Logout Button (at the end) -->
+    <form class="profile-form" action="/api/auth/logout" method="POST">
+      <button type="submit">Logout</button>
+    </form>
+  </section>
+</main>

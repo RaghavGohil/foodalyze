@@ -45,9 +45,11 @@ import authRoutes from './src/routes/authRoutes.js';
 import pageRoutes from './src/routes/pageRoutes.js';
 import dashboardRoutes from './src/routes/dashboardRoutes.js';
 import adminRoutes from './src/routes/adminRoutes.js';
+import userInfoRoutes from './src/routes/userInfoRoutes.js';
 app.use('/', pageRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/', dashboardRoutes);
+app.use('/', userInfoRoutes);
 app.use('/', adminRoutes);
 
 import './initialize.js'
