@@ -1,55 +1,59 @@
 import { supabase } from "../services/supabaseClient.js";
-import { prisma } from "../services/prismaClient.js";
 
 export const signup = async (req, res) => {
   const { email, password, name, phone, gender } = req.body;
+
   try {
-    // Sign up with Supabase Auth
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    // Step 1: Create user in Supabase Auth
+    const { data: signupData, error: signupError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
 
-    // Log the entire response object to check what we are getting
-    console.log("Signup Response:", data);
-    console.log("Signup Error:", error);
+    if (signupError) throw new Error(`Auth Error: ${signupError.message}`);
 
-    if (error) throw error;
+    const user = signupData?.user;
+    if (!user) throw new Error("Signup failed — user not returned");
 
-    const authUserId = data.user.id;
+    const authUserId = user.id;
 
-    // Create user in Prisma database with Supabase user ID and optional fields
-    const newUser = await prisma.user.create({
-      data: {
+    // Step 2: Insert user details into Supabase Database
+    const { error: insertError } = await supabase.from("User").insert([
+      {
         name,
         phone,
         gender,
-        authUserId,
+        authUserId: authUserId, // assuming this column exists
+        updatedAt: new Date().toISOString()
       },
-    });
+    ]);
 
-    // Check if session exists
-    const session = data.session;
-    if (!session) {
-      throw new Error("Session object is missing from signup response");
+    if (insertError) {
+      // Rollback: Delete the Supabase auth user if DB insert fails
+      await supabase.auth.admin.deleteUser(authUserId); // Requires service role key!
+      throw new Error(`DB Insert Error: ${insertError.message}`);
     }
 
-    // Extract access token if session exists
-    const accessToken = session.access_token;
-    if (!accessToken) {
-      throw new Error("Failed to retrieve access token from session.");
+    // Step 3: Get the session to retrieve access token
+    const session = signupData.session;
+    if (!session || !session.access_token) {
+      throw new Error("Signup succeeded but no session/token received.");
     }
 
-    // Set the access token in a cookie for session management
-    res.cookie("access_token", accessToken, {
-      httpOnly: true, // To prevent JavaScript access
-      secure: process.env.NODE_ENV === "production", // Secure cookie in production
-      maxAge: 1000 * 60 * 60 * 24, // 1 day expiration
+    // Step 4: Set token in cookie
+    res.cookie("access_token", session.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 1000 * 60 * 60 * 24,
     });
 
-    res.redirect("/dashboard"); // Redirect after successful signup
+    res.redirect("/dashboard");
   } catch (err) {
     console.error("Signup Error:", err);
     res.status(400).json({ error: err.message });
   }
 };
+
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
