@@ -24,8 +24,6 @@ model Product {
 
     productImage Bytes
 
-    searchHistory SearchHistory[]
-
     createdAt        DateTime            @default(now())
     updatedAt        DateTime            @updatedAt
 }

@@ -46,10 +46,12 @@ import pageRoutes from './src/routes/pageRoutes.js';
 import dashboardRoutes from './src/routes/dashboardRoutes.js';
 import adminRoutes from './src/routes/adminRoutes.js';
 import userInfoRoutes from './src/routes/userInfoRoutes.js';
+import searchHistoryRoutes from './src/routes/searchHistoryRoutes.js';
 app.use('/', pageRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', userInfoRoutes);
+app.use('/', searchHistoryRoutes);
 app.use('/', adminRoutes);
 
 import './initialize.js'

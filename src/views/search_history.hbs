@@ -1,0 +1,18 @@
+<!--Styles-->
+<link rel="stylesheet" href="/css/search_history.css" />
+<body>
+  <div class="history-list">
+    <h2>Product Search History</h2>
+    <ul>
+      {{#each searchHistory}}
+        <li class="history-item">
+          <div class="product-details">
+            <h3>{{data.product.productName}}</h3>
+            <p>Time: {{createdAt}}</p>
+          </div>
+          <a href="{{this.link}}" class="view-link" target="_blank">View Details</a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+</body>

@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  background-color: #ffffff;
-  color: #000;
+  background-color: var(--cream);
+  color: var(--olive);
 }
 
 /* Header */
@@ -23,6 +23,10 @@ header {
   font-weight: normal;
   font-size: 0.95rem;
   margin-bottom: 0.3rem;
+}
+
+h1{
+  font-size: 2rem;
 }
 
 .logo {
@@ -48,7 +52,7 @@ nav a {
 /* Sidebar scrolls with content */
 .sidebar {
   width: 140px;
-  background-color: #594c39;
+  background-color: var(--olive);
   padding: 20px 0;
 }
 
@@ -80,7 +84,7 @@ nav a {
 }
 
 button {
-  background-color: #594c39;
+  background-color: var(--olive);
   color: white;
   border: none;
   padding: 0.6rem 1rem;
@@ -91,6 +95,7 @@ button {
 }
 
 button:hover {
+  background-color: var(--dark-background);
   opacity: 0.9;
 }
 

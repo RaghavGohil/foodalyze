@@ -86,7 +86,10 @@ export const login = async (req, res) => {
       maxAge: 1000 * 60 * 60 * 24, // Cookie expires in 1 day
     });
 
-    res.redirect("/dashboard"); // Redirect after successful login
+    if(email !== process.env.ADMIN_EMAIL)
+      res.redirect("/dashboard"); // Redirect after successful login
+    else
+      res.redirect("/admin"); // Redirect after successful login
   } catch (err) {
     console.error("Login Error:", err);
     res.status(400).json({ error: err.message });
