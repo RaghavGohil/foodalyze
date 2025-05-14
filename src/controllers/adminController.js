@@ -1,5 +1,4 @@
 import { supabase } from "../services/supabaseClient.js";
-import { prisma } from "../services/prismaClient.js";
 
 export const getAdminDashboard = async (req, res) => {
   try {
@@ -203,10 +202,11 @@ export const addProduct = async (req, res) => {
       return res.status(400).json({ error: "Missing productImage file" });
     }
 
-    const imageBuffer = req.file.buffer;
+    const imageBuffer = req.file.buffer.toJSON().data;
+    const hexArray = Array.from(imageBuffer, byte => byte.toString(16).padStart(2, '0')).join('');
 
-    const newProduct = await prisma.product.create({
-      data: {
+    const { error } = await supabase.from("Product").insert([
+      {
         productName,
         brandName,
         barcode,
@@ -216,17 +216,25 @@ export const addProduct = async (req, res) => {
         categories,
         nutriScore,
         novaScore: parseInt(novaScore),
-        data: data ? JSON.parse(data) : {}, // optional JSON parsing
-        productImage: imageBuffer,
+        data: data ? JSON.parse(data) : {},
+        productImage: '\\x'+hexArray, // storing bytes directly
+        updatedAt: new Date().toISOString(),
       },
-    });
+    ]);
 
-    res.redirect('/admin/product-management')
+    if (error) {
+      console.error("Supabase insert error:", error);
+      return res.status(500).json({ error: "Failed to insert product" });
+    }
+
+    res.redirect("/admin/product-management");
+
   } catch (error) {
     console.error("Error adding product:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 export const deleteProduct = async (req, res) => {
   const { productId } = req.query;

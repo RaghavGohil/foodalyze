@@ -26,7 +26,7 @@ body{
   height: calc(100% + 200px); /* Adjusts height to cover area after pushing down */
   object-fit: cover;
   z-index: 0;
-  opacity: 0.25;
+  opacity: 0.65;
 }
 
 .hero-copy {
