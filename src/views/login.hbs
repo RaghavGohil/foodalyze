@@ -1,22 +1,75 @@
 <link rel="stylesheet" href="/css/login.css">
-<div class="container">
-  <h2>Login to Foodalyze</h2>
-  <!-- Login Form -->
-  <form id="loginForm" action="/api/auth/login" method="POST">
-    <input type="email" id="email" name="email" placeholder="Email Address" required>
-    <div id="emailError" class="error-message"></div>
+<body>
+  <div class="container">
+    <h2>Login to Foodalyze</h2>
 
-    <input type="password" id="password" name="password" placeholder="Password" required>
-    <div id="passwordError" class="error-message"></div>
+    <!-- Login Form -->
+    <form id="loginForm" action="/api/auth/login" method="POST">
+      <input type="email" id="email" name="email" placeholder="Email Address" required>
+      <div id="emailError" class="error-message"></div>
 
-    <p class="forgot-password"><a href="/forgot-password">Don't remember your password?</a></p>
-    <button type="submit" class="btn">Login</button>
-  </form>
-  <!-- Continue with Google -->
-  <button type="button" class="btn google-btn" onclick="continueWithGoogle()">
-    <svg  xmlns="http://www.w3.org/2000/svg" stroke-width="1" width="20"  height="20"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-brand-google"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 2a9.96 9.96 0 0 1 6.29 2.226a1 1 0 0 1 .04 1.52l-1.51 1.362a1 1 0 0 1 -1.265 .06a6 6 0 1 0 2.103 6.836l.001 -.004h-3.66a1 1 0 0 1 -.992 -.883l-.007 -.117v-2a1 1 0 0 1 1 -1h6.945a1 1 0 0 1 .994 .89c.04 .367 .061 .737 .061 1.11c0 5.523 -4.477 10 -10 10s-10 -4.477 -10 -10s4.477 -10 10 -10z" /></svg>
-    Continue with Google
-  </button>
-  <!-- Signup Link -->
-  <p class="login-link">Don't have an account? <a href="/signup">Sign Up</a></p>
-</div>
+      <div class="password-wrapper">
+        <input type="password" id="password" name="password" placeholder="Password" required>
+
+        <!-- Toggle SVGs -->
+        <span id="togglePassword" class="toggle-password">
+          <!-- Closed Eye (Password Hidden) -->
+          <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-eye-closed">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4" />
+            <path d="M3 15l2.5 -3.8" />
+            <path d="M21 14.976l-2.492 -3.776" />
+            <path d="M9 17l.5 -4" />
+            <path d="M15 17l-.5 -4" />
+          </svg>
+
+          <!-- Open Eye (Password Visible) -->
+          <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-eye" style="display: none;">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+          </svg>
+        </span>
+      </div>
+      <div id="passwordError" class="error-message"></div>
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <!-- Continue with Google -->
+    <button type="button" class="btn google-btn" onclick="continueWithGoogle()">
+      <svg xmlns="http://www.w3.org/2000/svg" stroke-width="1" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icon-tabler-brand-google">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 2a9.96 9.96 0 0 1 6.29 2.226a1 1 0 0 1 .04 1.52l-1.51 1.362a1 1 0 0 1 -1.265 .06a6 6 0 1 0 2.103 6.836l.001 -.004h-3.66a1 1 0 0 1 -.992 -.883l-.007 -.117v-2a1 1 0 0 1 1 -1h6.945a1 1 0 0 1 .994 .89c.04 .367 .061 .737 .061 1.11c0 5.523 -4.477 10 -10 10s-10 -4.477 -10 -10s4.477 -10 10 -10z" />
+      </svg>
+      Continue with Google
+    </button>
+
+    <!-- Signup Link -->
+    <p class="login-link">Don't have an account? <a href="/signup">Sign Up</a></p>
+  </div>
+
+  <!-- Script -->
+  <script>
+  // Select the required elements
+  const passwordInput = document.getElementById("password");
+  const togglePassword = document.getElementById("togglePassword");
+  const eyeOpen = document.getElementById("eyeOpen");
+  const eyeClosed = document.getElementById("eyeClosed");
+
+  // Initially, set the "eyeClosed" icon to visible and "eyeOpen" icon to hidden
+  eyeClosed.style.display = "inline";  // Show the closed eye by default
+  eyeOpen.style.display = "none";      // Hide the open eye by default
+
+  // Add event listener for toggle
+  togglePassword.addEventListener("click", () => {
+    const isPassword = passwordInput.type === "password"; // Check if password is hidden
+    passwordInput.type = isPassword ? "text" : "password"; // Toggle password visibility
+
+    // Toggle the visibility of the eye icons based on the input type
+    eyeOpen.style.display = isPassword ? "inline" : "none";
+    eyeClosed.style.display = isPassword ? "none" : "inline";
+  });
+</script>
+ 
+</body>

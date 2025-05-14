@@ -78,8 +78,8 @@ export const productInfo = async (req, res) => {
       Ingredients: ${JSON.stringify(product.ingredients || "")}
 
       Give personal health warnings for the ingredients and suggest healthy alternatives, explain in depth.
-
-      For healthier alternatives, also give healthier products to use.
+      For healthier alternatives, also give healthier related brand product names and give alternatives on cuisine.
+      Also see consider other user infomation. Nutritional breakdown shows the nutrition you get from the ingredients.
 
       Give the response in the following format **strictly as JSON with no nesting** with no markdown or extra text:
       {
