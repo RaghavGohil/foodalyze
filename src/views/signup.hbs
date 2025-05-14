@@ -10,8 +10,30 @@
 
     <input type="email" id="email" name="email" placeholder="Email Address" required />
     <span id="emailError"></span>
+    <div class="password-wrapper">
+        <input type="password" id="password" name="password" placeholder="Password" required>
 
-    <input type="password" id="password" name="password" placeholder="Password" required />
+        <!-- Toggle SVGs -->
+        <span id="togglePassword" class="toggle-password">
+          <!-- Closed Eye (Password Hidden) -->
+          <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-eye-closed">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4" />
+            <path d="M3 15l2.5 -3.8" />
+            <path d="M21 14.976l-2.492 -3.776" />
+            <path d="M9 17l.5 -4" />
+            <path d="M15 17l-.5 -4" />
+          </svg>
+
+          <!-- Open Eye (Password Visible) -->
+          <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-eye" style="display: none;">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+          </svg>
+        </span>
+      </div>
+      <div id="passwordError" class="error-message"></div>
     <span id="passwordError"></span>
 
     <input
@@ -57,4 +79,26 @@
   <p class="login-link">
     Already have an account? <a href="/">Login</a>
   </p>
+  <!-- Script -->
+  <script>
+  // Select the required elements
+  const passwordInput = document.getElementById("password");
+  const togglePassword = document.getElementById("togglePassword");
+  const eyeOpen = document.getElementById("eyeOpen");
+  const eyeClosed = document.getElementById("eyeClosed");
+
+  // Initially, set the "eyeClosed" icon to visible and "eyeOpen" icon to hidden
+  eyeClosed.style.display = "inline";  // Show the closed eye by default
+  eyeOpen.style.display = "none";      // Hide the open eye by default
+
+  // Add event listener for toggle
+  togglePassword.addEventListener("click", () => {
+    const isPassword = passwordInput.type === "password"; // Check if password is hidden
+    passwordInput.type = isPassword ? "text" : "password"; // Toggle password visibility
+
+    // Toggle the visibility of the eye icons based on the input type
+    eyeOpen.style.display = isPassword ? "inline" : "none";
+    eyeClosed.style.display = isPassword ? "none" : "inline";
+  });
+</script>
 </div>
