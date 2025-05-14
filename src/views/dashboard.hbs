@@ -127,38 +127,45 @@
     <p>Discover healthier alternatives and make better food choices.</p>
   </div>
 </section>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 <script>
-  // Trigger file upload dialog when upload button is clicked function
-  triggerFileUpload() { const imageInput =
-  document.getElementById('productImage'); imageInput.value = ''; // Reset file
-  input value so the same file can be re-uploaded imageInput.click(); // Open
-  file chooser dialog } // Handle the file selection event function
-  handleFileUpload(event) { const file = event.target.files[0]; const textInput
-  = document.getElementById('productInput'); const cancelBtn =
-  document.getElementById('cancelBtn'); const uploadBtn =
-  document.getElementById('uploadBtn'); if (file) { textInput.value = file.name;
-  // Display the file name in the input field textInput.disabled = true; //
-  Disable the input once a file is selected cancelBtn.style.display =
-  'inline-block'; // Show the cancel button uploadBtn.style.display = 'none'; //
-  Hide the upload button sendBarcodeRequest(file); // Call function to extract
-  barcode from the image } } // Send barcode request to the server async
-  function sendBarcodeRequest(file) { const formData = new FormData();
-  formData.append('image', file); // Append the selected file to the form data
-  try { const response = await fetch('/api/product/barcode', { method: 'POST',
-  body: formData, }); if (!response.ok) { throw new Error('Failed to get
-  barcode'); } const data = await response.json(); const barcode = data.barcode;
-  if (barcode) { document.getElementById('productInput').value = barcode; // Set
-  the barcode value in the input field } else { alert('No barcode found in the
-  image'); } } catch (error) { console.error('Error:', error); alert('Error
-  extracting barcode from image'); } } // Clear the input and reset the form
-  function clearInput() { const textInput =
-  document.getElementById('productInput'); const imageInput =
-  document.getElementById('productImage'); const cancelBtn =
-  document.getElementById('cancelBtn'); const uploadBtn =
-  document.getElementById('uploadBtn'); textInput.value = ''; // Reset the input
-  field textInput.disabled = false; // Enable the input field imageInput.value =
-  ''; // Reset the file input field cancelBtn.style.display = 'none'; // Hide
-  the cancel button uploadBtn.style.display = 'inline-block'; // Show the upload
-  button again }
-</script>
+    // Open file picker
+    function triggerFileUpload() {
+      const imageInput = document.getElementById('productImage');
+      imageInput.value = ''; // allow reselecting same file
+      imageInput.click();
+    }
+
+    // On image selected
+    document.getElementById('productImage').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        const imageDataUrl = reader.result;
+
+        Quagga.decodeSingle({
+          src: imageDataUrl,
+          numOfWorkers: 0, // Important for browser compatibility
+          inputStream: {
+            size: 800  // Resize image for performance
+          },
+          decoder: {
+            readers: ['code_128_reader', 'ean_reader', 'ean_8_reader', 'upc_reader', 'upc_e_reader']
+          }
+        }, function (result) {
+          const input = document.getElementById('productInput');
+          if (result && result.codeResult) {
+            input.value = result.codeResult.code;
+          } else {
+            input.value = '';
+            alert('Error scanning barcode. Try again or enter manually.');
+          }
+        });
+      };
+
+      reader.readAsDataURL(file);
+    });
+  </script>
