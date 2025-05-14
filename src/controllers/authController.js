@@ -100,6 +100,88 @@ export const login = async (req, res) => {
   }
 };
 
+export const getCallbackPage = async (req, res) =>{
+  res.render('auth_callback', {layout:"auth_layout"});
+}
+
+export const signinWithGoogle = async (req, res) => {
+  try {
+    // Create a redirect URL for Supabase to send the user to Google
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'https://foodalyze.onrender.com/auth/signin-with-google/callback'
+      },
+    });
+
+    if (error) throw error;
+
+    // Redirect the user to the Google OAuth URL provided by Supabase
+    res.redirect(data.url);
+  } catch (err) {
+    console.error("Google Login Error:", err);
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const googleTokenHandler = async (req, res) => {
+  const { access_token } = req.body;
+
+  if (!access_token) {
+    return res.status(400).json({ error: "Access token missing." });
+  }
+
+  try {
+    // 1. Use access_token to get user info from Supabase
+    const { data: { user }, error: userError } = await supabase.auth.getUser(access_token);
+    if (userError) throw userError;
+
+    const { email, user_metadata } = user;
+    const name = user_metadata?.full_name || user_metadata?.name || "Unknown";
+
+    // 2. Check if user exists
+    const { data: existingUser, error: selectError } = await supabase
+      .from("User")
+      .select("*")
+      .eq("authUserId", user.id)
+      .single();
+
+    if (!existingUser && !selectError) {
+      // 3. Insert user if not exists
+      const { error: insertError } = await supabase.from("User").insert([
+        {
+          name,
+          email,
+          phone: null,
+          gender: null,
+          authUserId: user.id,
+          updatedAt: new Date().toISOString(),
+        }
+      ]);
+
+      if (insertError) throw insertError;
+    }
+
+    // 4. Set token in cookie
+    res.cookie("access_token", access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    // 5. Redirect based on role
+    if (email === process.env.ADMIN_EMAIL) {
+      return res.json({ redirect: "/admin" });
+    } else {
+      return res.json({ redirect: "/dashboard" });
+    }
+  } catch (err) {
+    console.error("Google Token Handler Error:", err);
+    res.status(400).json({ error: err.message });
+  }
+};
+
+
 export const logout = async (_req, res) => {
   try {
     const { error } = await supabase.auth.signOut();

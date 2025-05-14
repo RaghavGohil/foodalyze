@@ -1,0 +1,31 @@
+<head>
+  <title>Signing you in...</title>
+</head>
+<body>
+  <p>Please wait...</p>
+  <script>
+    (async () => {
+      const params = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = params.get("access_token");
+
+      if (!accessToken) {
+        alert("No access token found.");
+        return;
+      }
+
+      // Send token to your backend for verification, DB insert, and cookie setting
+      const res = await fetch("/api/auth/signin-with-google/google-token-handler", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ access_token: accessToken })
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        window.location.href = result.redirect || "/dashboard";
+      } else {
+        alert(result.error || "Login failed");
+      }
+    })();
+  </script>
+</body>
