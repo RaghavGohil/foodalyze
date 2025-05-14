@@ -1,5 +1,6 @@
 <!--Styles-->
 <link rel="stylesheet" href="/css/product_info.css" />
+<link rel="stylesheet" href="/css/markdown.css" />
 <script>
   function toggleCollapsible(id) { var content = document.getElementById(id);
   var button = content.previousElementSibling; content.classList.toggle('open');
@@ -7,7 +8,7 @@
   button.querySelector('.arrow').classList.toggle('up-arrow'); }
 </script>
 <script src="prod_info.js"></script>
-<main class="container">
+<main class="container markdown">
   <section class="product-info">
     <h1>"Your product has been decoded – explore your personalized Foodalyze
       insights now!"</h1>
@@ -73,9 +74,7 @@
 
     <div class="personal-warnings rounded-box">
       <div class="title">⚠️ Personal Health Warnings</div>
-      <ul>
-        {{{aiResponse.healthWarnings}}}
-      </ul>
+      {{{aiResponse.healthWarnings}}}
     </div>
 
     <div class="alternatives rounded-box">

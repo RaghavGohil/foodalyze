@@ -158,29 +158,6 @@ nav ul li a {
   margin-bottom: 10px;
 }
 
-.personal-warnings ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.personal-warnings li {
-  margin-bottom: 8px;
-  color: #666;
-}
-
-.warning {
-  color: orange;
-  margin-right: 5px;
-  font-weight: bold;
-}
-
-.cross {
-  color: red;
-  margin-right: 5px;
-  font-weight: bold;
-}
-
 .collapsible-sections .collapsible {
   margin-bottom: 15px;
   border: 1px solid #ddd;

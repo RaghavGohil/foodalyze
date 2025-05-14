@@ -1,5 +1,8 @@
 import { genAI } from "../services/geminiClient.js";
 import { supabase } from "../services/supabaseClient.js";
+import { marked } from "marked";
+
+const markdownToHTML = (md) => marked.parse(md || "");
 
 export const productInfo = async (req, res) => {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -78,10 +81,11 @@ export const productInfo = async (req, res) => {
       Ingredients: ${JSON.stringify(product.ingredients || "")}
 
       Give personal health warnings for the ingredients and suggest healthy alternatives, explain in depth.
-      For healthier alternatives, also give healthier related brand product names and give alternatives on cuisine.
-      Also see consider other user infomation. Nutritional breakdown shows the nutrition you get from the ingredients.
+      For healthier alternatives, also give healthier related brand names and give alternatives on cuisine.
+      Also see consider other user infomation and infer product type from it's name. Nutritional breakdown shows the nutrition you get from the ingredients.
 
-      Give the response in the following format **strictly as JSON with no nesting** with no markdown or extra text:
+      Give the response in the following format **strictly as JSON with no nesting** all in markdown format,
+      data should be pointwise whereever necessary (also add emojis but not too much):
       {
         "summary": "<your_response>",
         "ingredientsToTrust": "<your_response>",
@@ -105,7 +109,15 @@ export const productInfo = async (req, res) => {
       console.error("Failed to parse Gemini AI response:", jsonErr.message);
       return res.status(500).send("AI response could not be parsed.");
     }
-
+    aiResponse = {
+      summary: markdownToHTML(aiResponse.summary),
+      ingredientsToTrust: markdownToHTML(aiResponse.ingredientsToTrust),
+      ingredientsThatRaiseRedFlags: markdownToHTML(aiResponse.ingredientsThatRaiseRedFlags),
+      healthWarnings: markdownToHTML(aiResponse.healthWarnings),
+      alternatives: markdownToHTML(aiResponse.alternatives),
+      ingredients: markdownToHTML(aiResponse.ingredients),
+      nutritionBreakdown: markdownToHTML(aiResponse.nutritionBreakdown),
+    };
     // Step 5: Save search history
     const historyEntry = {
       product,
