@@ -1,14 +1,7 @@
 <!--Styles-->
 <link rel="stylesheet" href="/css/product_info.css" />
 <link rel="stylesheet" href="/css/markdown.css" />
-<script>
-  function toggleCollapsible(id) { var content = document.getElementById(id);
-  var button = content.previousElementSibling; content.classList.toggle('open');
-  button.querySelector('.arrow').classList.toggle('down-arrow');
-  button.querySelector('.arrow').classList.toggle('up-arrow'); }
-</script>
-<script src="prod_info.js"></script>
-<main class="container markdown">
+<main class="container markdown" id="report">
   <section class="product-info">
     <h1>"Your product has been decoded – explore your personalized Foodalyze
       insights now!"</h1>
@@ -113,3 +106,52 @@
     </div>
   </section>
 </main>
+<script>
+  function toggleCollapsible(id) { var content = document.getElementById(id);
+  var button = content.previousElementSibling; content.classList.toggle('open');
+  button.querySelector('.arrow').classList.toggle('down-arrow');
+  button.querySelector('.arrow').classList.toggle('up-arrow'); }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".save-report").addEventListener("click", () => {
+      const element = document.getElementById("report");
+      html2pdf().set({
+        margin: 0.5,
+        filename: 'Foodalyze_Report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      }).from(element).save();
+    });
+
+    document.querySelector(".share-report").addEventListener("click", async () => {
+      const element = document.getElementById("report");
+
+      const opt = {
+        margin: 0.5,
+        filename: 'Foodalyze_Report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+
+      if (navigator.canShare && navigator.canShare({ files: [new File([pdfBlob], 'Foodalyze_Report.pdf', { type: 'application/pdf' })] })) {
+        try {
+          await navigator.share({
+            title: 'Foodalyze Report',
+            text: 'Check out this product health report!',
+            files: [new File([pdfBlob], 'Foodalyze_Report.pdf', { type: 'application/pdf' })],
+          });
+        } catch (error) {
+          alert('Sharing failed: ' + error);
+        }
+      } else {
+        alert('Sharing not supported on this browser. Try saving the PDF manually.');
+      }
+    });
+  });
+</script>
